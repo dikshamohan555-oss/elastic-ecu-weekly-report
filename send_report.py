@@ -4,24 +4,21 @@ from datetime import datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
-ELASTIC_API_KEY = os.getenv("ELASTIC_API_KEY")
+SESSION_COOKIE = os.getenv("ELASTIC_SESSION_COOKIE")
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 SENDER_EMAIL = os.getenv("SENDER_EMAIL")
 RECIPIENT_EMAIL = os.getenv("RECIPIENT_EMAIL")
 
 def fetch_eci_usage():
-    url = "https://api.elastic-cloud.com/api/v2/billing/usage"
-    headers = {
-        "Authorization": f"ApiKey {ELASTIC_API_KEY}",
-        "Content-Type": "application/json"
-    }
+    url = "https://cloud.elastic.co/api/v1/billing/usage"  # Internal UI API
+    cookies = {"__ec_session": SESSION_COOKIE}
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, cookies=cookies)
     response.raise_for_status()
     data = response.json()
 
-    # Extract ECU usage from v2 API format
-    total_eci = data.get("total_eci_consumption", 0)
+    # Extract ECU usage from internal API
+    total_eci = data.get("totalEcu", 0)
     return total_eci
 
 def send_email(report):
