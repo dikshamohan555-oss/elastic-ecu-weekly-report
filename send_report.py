@@ -10,14 +10,18 @@ SENDER_EMAIL = os.getenv("SENDER_EMAIL")
 RECIPIENT_EMAIL = os.getenv("RECIPIENT_EMAIL")
 
 def fetch_eci_usage():
-    url = "https://api.elastic-cloud.com/api/v1/billing/costs/organizations"
-    headers = {"Authorization": f"ApiKey {ELASTIC_API_KEY}"}
+    url = "https://api.elastic-cloud.com/api/v2/billing/usage"
+    headers = {
+        "Authorization": f"ApiKey {ELASTIC_API_KEY}",
+        "Content-Type": "application/json"
+    }
 
     response = requests.get(url, headers=headers)
     response.raise_for_status()
     data = response.json()
 
-    total_eci = data["costs"]["total"]["ecu"]
+    # Extract ECU usage from v2 API format
+    total_eci = data.get("total_eci_consumption", 0)
     return total_eci
 
 def send_email(report):
