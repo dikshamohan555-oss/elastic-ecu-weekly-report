@@ -2,7 +2,7 @@ name: Weekly ECU Report
 
 on:
   schedule:
-    - cron: "0 8 * * MON"   # Every Monday at 08:00 UTC
+    - cron: "0 7 * * MON"   # Every Monday at 07:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -23,8 +23,8 @@ jobs:
 
       - name: Run report script
         env:
+          ELASTIC_SESSION_COOKIE: ${{ secrets.ELASTIC_SESSION_COOKIE }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-          ELASTIC_API_KEY: ${{ secrets.ELASTIC_API_KEY }}
           SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
           RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
         run: python send_report.py
