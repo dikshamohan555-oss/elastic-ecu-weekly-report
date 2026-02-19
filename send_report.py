@@ -4,10 +4,10 @@ from datetime import datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
-ELASTIC_API_KEY = os.getenv("essu_ZVZnek1HTktkMEpWWVZsbFVUZDBORFkxYW00NlNIbGFRMUEyUlU1TlFWTnFTVTlHY2t0eFFVeHNkdz09AAAAAKKm6O4=")
-SENDGRID_API_KEY = os.getenv("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")
-SENDER_EMAIL = os.getenv("Diksha.Mohan@sita.aero")
-RECIPIENT_EMAIL = os.getenv("Vaishnavi.Omanakuttan@sita.aero")
+ELASTIC_API_KEY = os.getenv("ELASTIC_API_KEY")
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+SENDER_EMAIL = os.getenv("SENDER_EMAIL")
+RECIPIENT_EMAIL = os.getenv("RECIPIENT_EMAIL")
 
 def fetch_eci_usage():
     url = "https://api.elastic-cloud.com/api/v1/billing/costs/organizations"
@@ -48,4 +48,3 @@ Automated Report
 
 if __name__ == "__main__":
     main()
-
